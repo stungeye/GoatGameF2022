@@ -24,6 +24,9 @@ public:
 
 	ofColor dynamicColor;
 	int xPosition, yPosition;
+	std::vector<std::pair<int, int>> foodPositions;
+	const int maxFood{5};
+	const int foodSize{20};
 	ofImage goat;
 	ofTrueTypeFont stencilFont;
 	bool movingUp{false}, movingDown{false}, movingRight{false}, movingLeft{false};

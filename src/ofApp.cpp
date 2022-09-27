@@ -14,6 +14,10 @@ void ofApp::setup() {
 	ofTrueTypeFont::setGlobalDpi(72);
 	stencilFont.load("STENCIL.TTF", 30);
 	ofLogToFile("myLogFile.txt", true);
+
+	for (auto i{0}; i < maxFood; ++i) {
+		foodPositions.push_back({ofRandomWidth(), ofRandomHeight()});
+	}
 }
 
 //--------------------------------------------------------------
@@ -33,6 +37,17 @@ void ofApp::update() {
 	if (movingRight) {
 		xPosition += 5;
 	}
+
+
+	for (auto& foodPosition : foodPositions) {
+		if ((xPosition > foodPosition.first - foodSize * 2) && (xPosition < (foodPosition.first + foodSize * 2))) {
+			if ((yPosition > foodPosition.second - foodSize * 2) && (yPosition < (foodPosition.second + foodSize *
+				2))) {
+				foodPosition.first = ofRandomWidth();
+				foodPosition.second = ofRandomHeight();
+			}
+		}
+	}
 }
 
 //--------------------------------------------------------------
@@ -47,6 +62,10 @@ void ofApp::draw() {
 	ofDrawBitmapString("X: " + std::to_string(xPosition) + " Y: " + std::to_string(yPosition), 100, 200);
 	stencilFont.drawString("My Goat", xPosition - 10, yPosition + 120);
 
+	for (auto foodPosition : foodPositions) {
+		ofSetColor(ofColor::green);
+		ofDrawCircle(foodPosition.first, foodPosition.second, foodSize);
+	}
 }
 
 //--------------------------------------------------------------
