@@ -2,116 +2,26 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-	ofSetBackgroundAuto(false); // Disable automatic background clearing.
-	//ofEnableAlphaBlending(); // Allow alpha channel transparency.
-	ofSetCircleResolution(50); // Make circles smoother than the default.
-	ofSetFrameRate(120); // Set the framerate to 60 frames per second.
-	xPosition = ofGetWidth() / 2;
-	yPosition = ofGetHeight() / 2;
-
-	goat.load("goat2.png"); // bin/data folder is the default
-
-	ofTrueTypeFont::setGlobalDpi(72);
-	stencilFont.load("STENCIL.TTF", 30);
-	ofLogToFile("myLogFile.txt", true);
-
-	for (auto i{0}; i < maxFood; ++i) {
-		foodPositions.push_back({ofRandomWidth(), ofRandomHeight()});
-	}
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	if (movingUp) {
-		yPosition -= 5;
-	}
-
-	if (movingDown) {
-		yPosition += 5;
-	}
-
-	if (movingLeft) {
-		xPosition -= 5;
-	}
-
-	if (movingRight) {
-		xPosition += 5;
-	}
-
-
-	for (auto& foodPosition : foodPositions) {
-		if ((xPosition > foodPosition.first - foodSize * 2) && (xPosition < (foodPosition.first + foodSize * 2))) {
-			if ((yPosition > foodPosition.second - foodSize * 2) && (yPosition < (foodPosition.second + foodSize *
-				2))) {
-				foodPosition.first = ofRandomWidth();
-				foodPosition.second = ofRandomHeight();
-			}
-		}
-	}
+	a2.update({static_cast<float>(ofGetMouseX()), static_cast<float>(ofGetMouseY())});
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	ofSetColor(200); // Set the fill color to black with a low alpha value.
-	ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight()); // Draw a rectangle that covers the canvas.
-
-	goat.draw(xPosition, yPosition, 100, 100);
-
-	// ofLog() << "X: " << xPosition << " Y: " << yPosition << "\n";
-	ofSetColor(0);
-	ofDrawBitmapString("X: " + std::to_string(xPosition) + " Y: " + std::to_string(yPosition), 100, 200);
-	stencilFont.drawString("My Goat", xPosition - 10, yPosition + 120);
-
-	for (auto foodPosition : foodPositions) {
-		ofSetColor(ofColor::green);
-		ofDrawCircle(foodPosition.first, foodPosition.second, foodSize);
-	}
+	a2.draw();
+	a1.draw(a2);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-	if (key == 'w' || key == 'W') {
-		// Up
-		movingUp = true;
-	}
 
-	if (key == 's' || key == 'S') {
-		// Down
-		movingDown = true;
-	}
-
-	if (key == 'a' || key == 'A') {
-		// Left
-		movingLeft = true;
-	}
-
-	if (key == 'd' || key == 'D') {
-		// Right
-		movingRight = true;
-	}
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {
-	if (key == 'w' || key == 'W') {
-		// Up
-		movingUp = false;
-	}
-
-	if (key == 's' || key == 'S') {
-		// Down
-		movingDown = false;
-	}
-
-	if (key == 'a' || key == 'A') {
-		// Left
-		movingLeft = false;
-	}
-
-	if (key == 'd' || key == 'D') {
-		// Right
-		movingRight = false;
-	}
 
 }
 
